@@ -1,0 +1,154 @@
+Microsoft Windows [Version 10.0.26100.7840]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\System32>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.38-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use college;
+Database changed
+MariaDB [college]> SELECT * FROM students;
++------+--------+------------+
+| ID   | Name   | Address    |
++------+--------+------------+
+|    1 | Ali    | Nowshera   |
+|    2 | Aslam  | Nowshera   |
+|    3 | Akber  | Peshawar   |
+|    4 | Ayaz   | NULL       |
+|    5 | Aiza   | NULL       |
+|    6 | Baseer | Rawalpindi |
+|    7 | Bushra | Islamabad  |
++------+--------+------------+
+7 rows in set (0.01 sec)
+
+MariaDB [college]> INSERT INTO students(Address) VALUES("Islamabad");
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students;
++------+--------+------------+
+| ID   | Name   | Address    |
++------+--------+------------+
+|    1 | Ali    | Nowshera   |
+|    2 | Aslam  | Nowshera   |
+|    3 | Akber  | Peshawar   |
+|    4 | Ayaz   | NULL       |
+|    5 | Aiza   | NULL       |
+|    6 | Baseer | Rawalpindi |
+|    7 | Bushra | Islamabad  |
+| NULL | NULL   | Islamabad  |
++------+--------+------------+
+8 rows in set (0.00 sec)
+
+MariaDB [college]> INSERT INTO students(ID,Name, Address) VALUES(7,"Danyal", "Islamabad");
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students;
++------+--------+------------+
+| ID   | Name   | Address    |
++------+--------+------------+
+|    1 | Ali    | Nowshera   |
+|    2 | Aslam  | Nowshera   |
+|    3 | Akber  | Peshawar   |
+|    4 | Ayaz   | NULL       |
+|    5 | Aiza   | NULL       |
+|    6 | Baseer | Rawalpindi |
+|    7 | Bushra | Islamabad  |
+| NULL | NULL   | Islamabad  |
+|    7 | Danyal | Islamabad  |
++------+--------+------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> DROP TABLE students;
+Query OK, 0 rows affected (0.04 sec)
+
+MariaDB [college]> SHOW TABLES;
+Empty set (0.00 sec)
+
+MariaDB [college]> CREATE TABLE students (ID INT UNIQUE NOT NULL AUTO_INCREMENT, Name VARCHAR(30) NOT NULL, Address TEXT);
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [college]> desc students;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| ID      | int(11)     | NO   | PRI | NULL    | auto_increment |
+| Name    | varchar(30) | NO   |     | NULL    |                |
+| Address | text        | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+3 rows in set (0.04 sec)
+
+MariaDB [college]> INSERT INTO students(Address) VALUES("Islamabad");
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+------+-----------+
+| ID | Name | Address   |
++----+------+-----------+
+|  1 |      | Islamabad |
++----+------+-----------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> INSERT INTO students(Name, Address) VALUES(NULL, "Islamabad");
+ERROR 1048 (23000): Column 'Name' cannot be null
+MariaDB [college]> show mode;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'mode' at line 1
+MariaDB [college]> show modes;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'modes' at line 1
+MariaDB [college]> SELECT @@sql_modes;
+ERROR 1193 (HY000): Unknown system variable 'sql_modes'
+MariaDB [college]> INSERT INTO students(ID, Name, Address) VALUES(1, "Ali", "Islamabad");
+ERROR 1062 (23000): Duplicate entry '1' for key 'ID'
+MariaDB [college]> SELECT * FROM students;
++----+------+-----------+
+| ID | Name | Address   |
++----+------+-----------+
+|  1 |      | Islamabad |
++----+------+-----------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> INSERT INTO students(ID,Name, Address) VALUES(NULL,"Danyal", "Islamabad");
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+--------+-----------+
+| ID | Name   | Address   |
++----+--------+-----------+
+|  1 |        | Islamabad |
+|  2 | Danyal | Islamabad |
++----+--------+-----------+
+2 rows in set (0.00 sec)
+
+MariaDB [college]> INSERT INTO students(ID, Name, Address) VALUES(10, "Aslam", "Islamabad");
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+--------+-----------+
+| ID | Name   | Address   |
++----+--------+-----------+
+|  1 |        | Islamabad |
+|  2 | Danyal | Islamabad |
+| 10 | Aslam  | Islamabad |
++----+--------+-----------+
+3 rows in set (0.00 sec)
+
+MariaDB [college]> INSERT INTO students(ID,Name, Address) VALUES(NULL,"Danyal", "Islamabad");
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+--------+-----------+
+| ID | Name   | Address   |
++----+--------+-----------+
+|  1 |        | Islamabad |
+|  2 | Danyal | Islamabad |
+| 10 | Aslam  | Islamabad |
+| 11 | Danyal | Islamabad |
++----+--------+-----------+
+4 rows in set (0.00 sec)
+
+MariaDB [college]>
