@@ -1,0 +1,235 @@
+Microsoft Windows [Version 10.0.26200.7840]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\System32>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.38-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| gdc_database       |
+| information_schema |
+| master_repository  |
+| mobile_application |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| store              |
+| students           |
+| test               |
+| usp_repository     |
++--------------------+
+12 rows in set (0.06 sec)
+
+MariaDB [(none)]> USE college;
+Database changed
+MariaDB [college]> SHOW TABLES;
++-------------------+
+| Tables_in_college |
++-------------------+
+| students          |
++-------------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> DESC students;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| ID      | int(11)     | NO   | PRI | NULL    | auto_increment |
+| Name    | varchar(50) | YES  |     | NULL    |                |
+| Address | text        | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+3 rows in set (0.02 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+--------+-----------+
+| ID | Name   | Address   |
++----+--------+-----------+
+|  1 |        | Islamabad |
+|  2 | Danyal | Islamabad |
+| 10 | Aslam  | Islamabad |
+| 11 | Danyal | Islamabad |
++----+--------+-----------+
+4 rows in set (0.00 sec)
+
+MariaDB [college]> DELETE FROM students WHERE ID = 10;
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+--------+-----------+
+| ID | Name   | Address   |
++----+--------+-----------+
+|  1 |        | Islamabad |
+|  2 | Danyal | Islamabad |
+| 11 | Danyal | Islamabad |
++----+--------+-----------+
+3 rows in set (0.00 sec)
+
+MariaDB [college]> DELETE FROM students WHERE ID = 11;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+--------+-----------+
+| ID | Name   | Address   |
++----+--------+-----------+
+|  1 |        | Islamabad |
+|  2 | Danyal | Islamabad |
++----+--------+-----------+
+2 rows in set (0.00 sec)
+
+MariaDB [college]> INSERT INTO students (Name, Address) VALUES ("Asma", "Rawalpindi");
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+--------+------------+
+| ID | Name   | Address    |
++----+--------+------------+
+|  1 |        | Islamabad  |
+|  2 | Danyal | Islamabad  |
+| 12 | Asma   | Rawalpindi |
++----+--------+------------+
+3 rows in set (0.00 sec)
+
+MariaDB [college]> DELETE FROM students;
+Query OK, 3 rows affected (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students;
+Empty set (0.00 sec)
+
+MariaDB [college]> INSERT INTO students (Name, Address) VALUES ("Asma", "Rawalpindi");
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+------+------------+
+| ID | Name | Address    |
++----+------+------------+
+| 13 | Asma | Rawalpindi |
++----+------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> TRUNCATE TABLE students;
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [college]> SELECT * FROM students;
+Empty set (0.00 sec)
+
+MariaDB [college]> INSERT INTO students (Name, Address) VALUES ("Asma", "Rawalpindi");
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+------+------------+
+| ID | Name | Address    |
++----+------+------------+
+|  1 | Asma | Rawalpindi |
++----+------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> INSERT INTO students (Name, Address) VALUES ("Bisma", "Rawalpindi"), ("Bushra", "Islamabad"), ("Bilal", "Islam Pur");
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> SELECT * FROM students;
++----+--------+------------+
+| ID | Name   | Address    |
++----+--------+------------+
+|  1 | Asma   | Rawalpindi |
+|  2 | Bisma  | Rawalpindi |
+|  3 | Bushra | Islamabad  |
+|  4 | Bilal  | Islam Pur  |
++----+--------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [college]> UPDATE students SET Address = "Islamabad" WHERE ID = 2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [college]> SELECT * FROM students;
++----+--------+------------+
+| ID | Name   | Address    |
++----+--------+------------+
+|  1 | Asma   | Rawalpindi |
+|  2 | Bisma  | Islamabad  |
+|  3 | Bushra | Islamabad  |
+|  4 | Bilal  | Islam Pur  |
++----+--------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [college]> UPDATE students SET Name = "Bisma Khan", Adress = "Lahore" WHERE ID = 2;
+ERROR 1054 (42S22): Unknown column 'Adress' in 'field list'
+MariaDB [college]> UPDATE students SET Name = "Bisma Khan", Address = "Lahore" WHERE ID = 2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [college]> SELECT * FROM students;
++----+------------+------------+
+| ID | Name       | Address    |
++----+------------+------------+
+|  1 | Asma       | Rawalpindi |
+|  2 | Bisma Khan | Lahore     |
+|  3 | Bushra     | Islamabad  |
+|  4 | Bilal      | Islam Pur  |
++----+------------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [college]> UPDATE students SET Name = "Bisma Khan", Adress = "Lahore" WHERE ID = 2;
+ERROR 1054 (42S22): Unknown column 'Adress' in 'field list'
+MariaDB [college]> UPDATE students SET Name = "Bisma Khan", Address = "Lahore" WHERE ID = 2;
+Query OK, 0 rows affected (0.01 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+MariaDB [college]> UPDATE students SET ID = 40 WHERE ID = 4;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [college]> SELECT * FROM students;
++----+------------+------------+
+| ID | Name       | Address    |
++----+------------+------------+
+|  1 | Asma       | Rawalpindi |
+|  2 | Bisma Khan | Lahore     |
+|  3 | Bushra     | Islamabad  |
+| 40 | Bilal      | Islam Pur  |
++----+------------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [college]> INSERT INTO students (Name, Address) VALUES ("Daniyal", "Rawalpindi");
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+------------+------------+
+| ID | Name       | Address    |
++----+------------+------------+
+|  1 | Asma       | Rawalpindi |
+|  2 | Bisma Khan | Lahore     |
+|  3 | Bushra     | Islamabad  |
+|  5 | Daniyal    | Rawalpindi |
+| 40 | Bilal      | Islam Pur  |
++----+------------+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> UPDATE students SET ID = 4 WHERE ID = 40;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [college]> SELECT * FROM students;
++----+------------+------------+
+| ID | Name       | Address    |
++----+------------+------------+
+|  1 | Asma       | Rawalpindi |
+|  2 | Bisma Khan | Lahore     |
+|  3 | Bushra     | Islamabad  |
+|  4 | Bilal      | Islam Pur  |
+|  5 | Daniyal    | Rawalpindi |
++----+------------+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]>
