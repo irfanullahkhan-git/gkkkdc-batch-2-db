@@ -1,0 +1,215 @@
+Microsoft Windows [Version 10.0.26200.7840]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\System32>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.38-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE college;
+Database changed
+MariaDB [college]> SELECT * FROM students;
++----+------------+------------+
+| ID | Name       | Address    |
++----+------------+------------+
+|  1 | Asma       | Rawalpindi |
+|  2 | Bisma Khan | Lahore     |
+|  3 | Bushra     | Islamabad  |
+|  4 | Bilal      | Islam Pur  |
+|  5 | Daniyal    | Rawalpindi |
++----+------------+------------+
+5 rows in set (0.02 sec)
+
+MariaDB [college]> SELECT ID, Name FROM students;
++----+------------+
+| ID | Name       |
++----+------------+
+|  1 | Asma       |
+|  2 | Bisma Khan |
+|  3 | Bushra     |
+|  4 | Bilal      |
+|  5 | Daniyal    |
++----+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, ID, Name, Name FROM students;
++------------+----+------------+------------+
+| Name       | ID | Name       | Name       |
++------------+----+------------+------------+
+| Asma       |  1 | Asma       | Asma       |
+| Bisma Khan |  2 | Bisma Khan | Bisma Khan |
+| Bushra     |  3 | Bushra     | Bushra     |
+| Bilal      |  4 | Bilal      | Bilal      |
+| Daniyal    |  5 | Daniyal    | Daniyal    |
++------------+----+------------+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT ID, Name FROM students;
++----+------------+
+| ID | Name       |
++----+------------+
+|  1 | Asma       |
+|  2 | Bisma Khan |
+|  3 | Bushra     |
+|  4 | Bilal      |
+|  5 | Daniyal    |
++----+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT ID AS "Student Class No", Name FROM students;
++------------------+------------+
+| Student Class No | Name       |
++------------------+------------+
+|                1 | Asma       |
+|                2 | Bisma Khan |
+|                3 | Bushra     |
+|                4 | Bilal      |
+|                5 | Daniyal    |
++------------------+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT ID AS Student Class No, Name FROM students;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Class No, Name FROM students' at line 1
+MariaDB [college]> SELECT ID AS StudentClassNo, Name FROM students;
++----------------+------------+
+| StudentClassNo | Name       |
++----------------+------------+
+|              1 | Asma       |
+|              2 | Bisma Khan |
+|              3 | Bushra     |
+|              4 | Bilal      |
+|              5 | Daniyal    |
++----------------+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT ID, Name FROM students;
++----+------------+
+| ID | Name       |
++----+------------+
+|  1 | Asma       |
+|  2 | Bisma Khan |
+|  3 | Bushra     |
+|  4 | Bilal      |
+|  5 | Daniyal    |
++----+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT ID, Name, 1+1 FROM students;
++----+------------+-----+
+| ID | Name       | 1+1 |
++----+------------+-----+
+|  1 | Asma       |   2 |
+|  2 | Bisma Khan |   2 |
+|  3 | Bushra     |   2 |
+|  4 | Bilal      |   2 |
+|  5 | Daniyal    |   2 |
++----+------------+-----+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT ID, Name, 1+1 as Fine FROM students;
++----+------------+------+
+| ID | Name       | Fine |
++----+------------+------+
+|  1 | Asma       |    2 |
+|  2 | Bisma Khan |    2 |
+|  3 | Bushra     |    2 |
+|  4 | Bilal      |    2 |
+|  5 | Daniyal    |    2 |
++----+------------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT ID, Name FROM students;
++----+------------+
+| ID | Name       |
++----+------------+
+|  1 | Asma       |
+|  2 | Bisma Khan |
+|  3 | Bushra     |
+|  4 | Bilal      |
+|  5 | Daniyal    |
++----+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT ID, Name FROM students WHERE ID < 4;
++----+------------+
+| ID | Name       |
++----+------------+
+|  1 | Asma       |
+|  2 | Bisma Khan |
+|  3 | Bushra     |
++----+------------+
+3 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT ID, Name FROM students WHERE ID = 4;
++----+-------+
+| ID | Name  |
++----+-------+
+|  4 | Bilal |
++----+-------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT ID, Name FROM students WHERE ID >= 4;
++----+---------+
+| ID | Name    |
++----+---------+
+|  4 | Bilal   |
+|  5 | Daniyal |
++----+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT ID, Name FROM students WHERE ID >= 4 OR ID <= 4;
++----+------------+
+| ID | Name       |
++----+------------+
+|  1 | Asma       |
+|  2 | Bisma Khan |
+|  3 | Bushra     |
+|  4 | Bilal      |
+|  5 | Daniyal    |
++----+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT ID, Name FROM students WHERE ID >= 4 AND ID <= 4;
++----+-------+
+| ID | Name  |
++----+-------+
+|  4 | Bilal |
++----+-------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students
+    -> ;
++----+------------+------------+
+| ID | Name       | Address    |
++----+------------+------------+
+|  1 | Asma       | Rawalpindi |
+|  2 | Bisma Khan | Lahore     |
+|  3 | Bushra     | Islamabad  |
+|  4 | Bilal      | Islam Pur  |
+|  5 | Daniyal    | Rawalpindi |
++----+------------+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Address = "Rawalpindi";
++----+---------+------------+
+| ID | Name    | Address    |
++----+---------+------------+
+|  1 | Asma    | Rawalpindi |
+|  5 | Daniyal | Rawalpindi |
++----+---------+------------+
+2 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Address = "Rawalpindi" OR Address = "Islamabad";
++----+---------+------------+
+| ID | Name    | Address    |
++----+---------+------------+
+|  1 | Asma    | Rawalpindi |
+|  3 | Bushra  | Islamabad  |
+|  5 | Daniyal | Rawalpindi |
++----+---------+------------+
+3 rows in set (0.00 sec)
