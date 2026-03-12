@@ -1,0 +1,269 @@
+Microsoft Windows [Version 10.0.26200.7840]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\System32>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.38-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE college;
+Database changed
+MariaDB [college]> DESC students;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| ID      | int(11)     | NO   | PRI | NULL    | auto_increment |
+| Name    | varchar(50) | YES  |     | NULL    |                |
+| Address | text        | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+3 rows in set (0.04 sec)
+
+MariaDB [college]> DROP TABLE students;
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [college]> CREATE TABLE students (ID INT NOT NULL AUTO_INCREMENT, Name VARCHAR(30), Age INT, Address VARCHAR(100), Marks INT);
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+MariaDB [college]> CREATE TABLE students (ID INT NOT NULL UNIQUE AUTO_INCREMENT, Name VARCHAR(30), Age INT, Address VARCHAR(100), Marks INT);
+Query OK, 0 rows affected (0.06 sec)
+
+MariaDB [college]> DESC students;
++---------+--------------+------+-----+---------+----------------+
+| Field   | Type         | Null | Key | Default | Extra          |
++---------+--------------+------+-----+---------+----------------+
+| ID      | int(11)      | NO   | PRI | NULL    | auto_increment |
+| Name    | varchar(30)  | YES  |     | NULL    |                |
+| Age     | int(11)      | YES  |     | NULL    |                |
+| Address | varchar(100) | YES  |     | NULL    |                |
+| Marks   | int(11)      | YES  |     | NULL    |                |
++---------+--------------+------+-----+---------+----------------+
+5 rows in set (0.03 sec)
+
+MariaDB [college]> INSERT INTO students (Name, Age, Address, Marks) VALUES
+    ->     ("Asma", 20, "Rawalpindi", 85),
+    ->     ("Bisma", 22, "Lahore", 72),
+    ->     ("Bushra", 21, "Islamabad", 91),
+    ->     ("Bilal", 23, "Islamabad", 65),
+    ->     ("Daniyal", 20, "Rawalpindi", 78),
+    ->     ("Fahad", 22, "Peshawar", 91),
+    ->     ("Gul", 24, "Nowshera", NULL),
+    ->     ("Hina", 20, "Lahore", 85),
+    ->     ("Iqra", NULL, "Islamabad", 55);
+Query OK, 9 rows affected (0.01 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+MariaDB [college]> SELECT * FROM students;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Fahad   |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students ORDER BY Name ASC;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Fahad   |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students ORDER BY Name;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Fahad   |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students ORDER BY Name DESC;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  9 | Iqra    | NULL | Islamabad  |    55 |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  6 | Fahad   |   22 | Peshawar   |    91 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  1 | Asma    |   20 | Rawalpindi |    85 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Fahad   |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students ORDER BY Marks DESC;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  6 | Fahad   |   22 | Peshawar   |    91 |
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> UPDATE students SET Name = "Ali" WHERE ID = 6;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [college]> SELECT * FROM students;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students ORDER BY Marks DESC;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students ORDER BY Marks DESC, Age DESC;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students ORDER BY 1 DESC;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  9 | Iqra    | NULL | Islamabad  |    55 |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  1 | Asma    |   20 | Rawalpindi |    85 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students ORDER BY 2 DESC;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  9 | Iqra    | NULL | Islamabad  |    55 |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, Age FROM students ORDER BY 2 DESC;
++---------+------+
+| Name    | Age  |
++---------+------+
+| Gul     |   24 |
+| Bilal   |   23 |
+| Bisma   |   22 |
+| Ali     |   22 |
+| Bushra  |   21 |
+| Asma    |   20 |
+| Daniyal |   20 |
+| Hina    |   20 |
+| Iqra    | NULL |
++---------+------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, Age FROM students ORDER BY 20 DESC;
+ERROR 1054 (42S22): Unknown column '20' in 'order clause'
+MariaDB [college]> SELECT Name, Age FROM students ORDER BY 3 DESC;
+ERROR 1054 (42S22): Unknown column '3' in 'order clause'
+MariaDB [college]> SELECT * FROM students ORDER BY Marks DESC LIMIT 3;
++----+--------+------+------------+-------+
+| ID | Name   | Age  | Address    | Marks |
++----+--------+------+------------+-------+
+|  6 | Ali    |   22 | Peshawar   |    91 |
+|  3 | Bushra |   21 | Islamabad  |    91 |
+|  1 | Asma   |   20 | Rawalpindi |    85 |
++----+--------+------+------------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [college]>

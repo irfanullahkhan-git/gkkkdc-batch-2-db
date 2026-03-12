@@ -1,0 +1,309 @@
+Microsoft Windows [Version 10.0.26200.7840]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\System32>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.38-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE college;
+Database changed
+MariaDB [college]> SELECT * FROM students;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.02 sec)
+
+MariaDB [college]> SELECT DISTINCT Address FROM students;
++------------+
+| Address    |
++------------+
+| Rawalpindi |
+| Lahore     |
+| Islamabad  |
+| Peshawar   |
+| Nowshera   |
++------------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students LIMIT 2;
++----+-------+------+------------+-------+
+| ID | Name  | Age  | Address    | Marks |
++----+-------+------+------------+-------+
+|  1 | Asma  |   20 | Rawalpindi |    85 |
+|  2 | Bisma |   22 | Lahore     |    72 |
++----+-------+------+------------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students LIMIT 2 OFFSET 2;
++----+--------+------+-----------+-------+
+| ID | Name   | Age  | Address   | Marks |
++----+--------+------+-----------+-------+
+|  3 | Bushra |   21 | Islamabad |    91 |
+|  4 | Bilal  |   23 | Islamabad |    65 |
++----+--------+------+-----------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students LIMIT 2 OFFSET 1;
++----+--------+------+-----------+-------+
+| ID | Name   | Age  | Address   | Marks |
++----+--------+------+-----------+-------+
+|  2 | Bisma  |   22 | Lahore    |    72 |
+|  3 | Bushra |   21 | Islamabad |    91 |
++----+--------+------+-----------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students OFFSET 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '1' at line 1
+MariaDB [college]> SELECT * FROM students LIMIT 2 OFFSET 1;
++----+--------+------+-----------+-------+
+| ID | Name   | Age  | Address   | Marks |
++----+--------+------+-----------+-------+
+|  2 | Bisma  |   22 | Lahore    |    72 |
+|  3 | Bushra |   21 | Islamabad |    91 |
++----+--------+------+-----------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students LIMIT 3 OFFSET 4;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
++----+---------+------+------------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students LIMIT -3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-3' at line 1
+MariaDB [college]> SELECT * FROM students;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> #wildcard
+MariaDB [college]> -- wildcard
+MariaDB [college]> SELECT * FROM students WHERE Name LIKE "B%";
++----+--------+------+-----------+-------+
+| ID | Name   | Age  | Address   | Marks |
++----+--------+------+-----------+-------+
+|  2 | Bisma  |   22 | Lahore    |    72 |
+|  3 | Bushra |   21 | Islamabad |    91 |
+|  4 | Bilal  |   23 | Islamabad |    65 |
++----+--------+------+-----------+-------+
+3 rows in set (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Name LIKE "Bi%";
++----+-------+------+-----------+-------+
+| ID | Name  | Age  | Address   | Marks |
++----+-------+------+-----------+-------+
+|  2 | Bisma |   22 | Lahore    |    72 |
+|  4 | Bilal |   23 | Islamabad |    65 |
++----+-------+------+-----------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Name LIKE "%i%";
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Name LIKE "%l";
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
++----+---------+------+------------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Name LIKE "%i" OR NAME LIKE "i%";
++----+------+------+-----------+-------+
+| ID | Name | Age  | Address   | Marks |
++----+------+------+-----------+-------+
+|  6 | Ali  |   22 | Peshawar  |    91 |
+|  9 | Iqra | NULL | Islamabad |    55 |
++----+------+------+-----------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE NOT (Name LIKE "%i" OR NAME LIKE "i%");
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
++----+---------+------+------------+-------+
+7 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Name LIKE "%i%" AND NOT (Name LIKE "%i" OR NAME LIKE "i%");
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  8 | Hina    |   20 | Lahore     |    85 |
++----+---------+------+------------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Name BETWEEN "A" AND "D";
++----+--------+------+------------+-------+
+| ID | Name   | Age  | Address    | Marks |
++----+--------+------+------------+-------+
+|  1 | Asma   |   20 | Rawalpindi |    85 |
+|  2 | Bisma  |   22 | Lahore     |    72 |
+|  3 | Bushra |   21 | Islamabad  |    91 |
+|  4 | Bilal  |   23 | Islamabad  |    65 |
+|  6 | Ali    |   22 | Peshawar   |    91 |
++----+--------+------+------------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Age BETWEEN 20 AND 22;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  8 | Hina    |   20 | Lahore     |    85 |
++----+---------+------+------------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Name LIKE "___";
++----+------+------+----------+-------+
+| ID | Name | Age  | Address  | Marks |
++----+------+------+----------+-------+
+|  6 | Ali  |   22 | Peshawar |    91 |
+|  7 | Gul  |   24 | Nowshera |  NULL |
++----+------+------+----------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Age = 20 OR Age = 21 OR Age = 23;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  8 | Hina    |   20 | Lahore     |    85 |
++----+---------+------+------------+-------+
+5 rows in set (0.01 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Age IN (20, 21, 23);
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  8 | Hina    |   20 | Lahore     |    85 |
++----+---------+------+------------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Age NOT IN (20, 21, 23);
++----+-------+------+----------+-------+
+| ID | Name  | Age  | Address  | Marks |
++----+-------+------+----------+-------+
+|  2 | Bisma |   22 | Lahore   |    72 |
+|  6 | Ali   |   22 | Peshawar |    91 |
+|  7 | Gul   |   24 | Nowshera |  NULL |
++----+-------+------+----------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Marks IS NULL;
++----+------+------+----------+-------+
+| ID | Name | Age  | Address  | Marks |
++----+------+------+----------+-------+
+|  7 | Gul  |   24 | Nowshera |  NULL |
++----+------+------+----------+-------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Marks IS NOT NULL;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+8 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Name NOT LIKE "___";
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+7 rows in set (0.00 sec)
+
+MariaDB [college]>
