@@ -1,0 +1,329 @@
+Microsoft Windows [Version 10.0.26200.8037]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\javak>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.38-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE college;
+Database changed
+MariaDB [college]> SELECT * FROM students;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.02 sec)
+
+MariaDB [college]> SELECT Name, Marks FROM students;
++---------+-------+
+| Name    | Marks |
++---------+-------+
+| Asma    |    85 |
+| Bisma   |    72 |
+| Bushra  |    91 |
+| Bilal   |    65 |
+| Daniyal |    78 |
+| Ali     |    91 |
+| Gul     |  NULL |
+| Hina    |    85 |
+| Iqra    |    55 |
++---------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, Marks, CASE WHEN Marks > 80 THEN "Excellent" ELSE "Good" END FROM students;
++---------+-------+-------------------------------------------------------+
+| Name    | Marks | CASE WHEN Marks > 80 THEN "Excellent" ELSE "Good" END |
++---------+-------+-------------------------------------------------------+
+| Asma    |    85 | Excellent                                             |
+| Bisma   |    72 | Good                                                  |
+| Bushra  |    91 | Excellent                                             |
+| Bilal   |    65 | Good                                                  |
+| Daniyal |    78 | Good                                                  |
+| Ali     |    91 | Excellent                                             |
+| Gul     |  NULL | Good                                                  |
+| Hina    |    85 | Excellent                                             |
+| Iqra    |    55 | Good                                                  |
++---------+-------+-------------------------------------------------------+
+9 rows in set (0.01 sec)
+
+MariaDB [college]> SELECT Name, Marks, CASE WHEN Marks > 80 THEN "Excellent" ELSE "Good" END AS Remarks FROM students;
++---------+-------+-----------+
+| Name    | Marks | Remarks   |
++---------+-------+-----------+
+| Asma    |    85 | Excellent |
+| Bisma   |    72 | Good      |
+| Bushra  |    91 | Excellent |
+| Bilal   |    65 | Good      |
+| Daniyal |    78 | Good      |
+| Ali     |    91 | Excellent |
+| Gul     |  NULL | Good      |
+| Hina    |    85 | Excellent |
+| Iqra    |    55 | Good      |
++---------+-------+-----------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, Marks, CASE WHEN Marks > 80 THEN "Excellent" ELSE CASE Marks > 50 THEN "Good" ELSE "Fail" END END AS Remarks FROM students;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'THEN "Good" ELSE "Fail" END END AS Remarks FROM students' at line 1
+MariaDB [college]> SELECT Name, Marks, CASE WHEN Marks > 80 THEN "Excellent" ELSE CASE Marks > 50 THEN "Good" ELSE "Fail" END AS Remarks FROM students;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'THEN "Good" ELSE "Fail" END AS Remarks FROM students' at line 1
+MariaDB [college]> SELECT Name, Marks, CASE WHEN Marks > 80 THEN "Excellent" ELSE CASE WHEN Marks > 50 THEN "Good" ELSE "Fail" END END AS Remarks FROM students;
++---------+-------+-----------+
+| Name    | Marks | Remarks   |
++---------+-------+-----------+
+| Asma    |    85 | Excellent |
+| Bisma   |    72 | Good      |
+| Bushra  |    91 | Excellent |
+| Bilal   |    65 | Good      |
+| Daniyal |    78 | Good      |
+| Ali     |    91 | Excellent |
+| Gul     |  NULL | Fail      |
+| Hina    |    85 | Excellent |
+| Iqra    |    55 | Good      |
++---------+-------+-----------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> -- Aggregate Functions
+MariaDB [college]> SELECT * FROM students;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT COUNT(*) FROM students;
++----------+
+| COUNT(*) |
++----------+
+|        9 |
++----------+
+1 row in set (0.01 sec)
+
+MariaDB [college]> SELECT COUNT(*) FROM students WHERE Address = "Islamabad";
++----------+
+| COUNT(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students WHERE Address = "Islamabad";
++----+--------+------+-----------+-------+
+| ID | Name   | Age  | Address   | Marks |
++----+--------+------+-----------+-------+
+|  3 | Bushra |   21 | Islamabad |    91 |
+|  4 | Bilal  |   23 | Islamabad |    65 |
+|  9 | Iqra   | NULL | Islamabad |    55 |
++----+--------+------+-----------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT *, COUNT(*) FROM students WHERE Address = "Islamabad";
++------+--------+------+-----------+-------+----------+
+| ID   | Name   | Age  | Address   | Marks | COUNT(*) |
++------+--------+------+-----------+-------+----------+
+|    3 | Bushra |   21 | Islamabad |    91 |        3 |
++------+--------+------+-----------+-------+----------+
+1 row in set (0.01 sec)
+
+MariaDB [college]> SELECT SUM(10, 20);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 20)' at line 1
+MariaDB [college]> SELECT SUM(Marks) FROM students;
++------------+
+| SUM(Marks) |
++------------+
+|        622 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT AVG(Marks) FROM students;
++------------+
+| AVG(Marks) |
++------------+
+|    77.7500 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT MAX(Marks) FROM students;
++------------+
+| MAX(Marks) |
++------------+
+|         91 |
++------------+
+1 row in set (0.01 sec)
+
+MariaDB [college]> SELECT MIN(Marks) FROM students;
++------------+
+| MIN(Marks) |
++------------+
+|         55 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT CEIL(AVG(Marks)) FROM students;
++------------------+
+| CEIL(AVG(Marks)) |
++------------------+
+|               78 |
++------------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT FLOOR(AVG(Marks)) FROM students;
++-------------------+
+| FLOOR(AVG(Marks)) |
++-------------------+
+|                77 |
++-------------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT CEIL(2.6) FROM students;
++-----------+
+| CEIL(2.6) |
++-----------+
+|         3 |
+|         3 |
+|         3 |
+|         3 |
+|         3 |
+|         3 |
+|         3 |
+|         3 |
+|         3 |
++-----------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT CEIL(2.6);
++-----------+
+| CEIL(2.6) |
++-----------+
+|         3 |
++-----------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT CEIL(3);
++---------+
+| CEIL(3) |
++---------+
+|       3 |
++---------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT CEIL(2.00000001);
++------------------+
+| CEIL(2.00000001) |
++------------------+
+|                3 |
++------------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT FLOOR(2.00000001);
++-------------------+
+| FLOOR(2.00000001) |
++-------------------+
+|                 2 |
++-------------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT ROUND(2.543);
++--------------+
+| ROUND(2.543) |
++--------------+
+|            3 |
++--------------+
+1 row in set (0.01 sec)
+
+MariaDB [college]> SELECT ROUND(2.443);
++--------------+
+| ROUND(2.443) |
++--------------+
+|            2 |
++--------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT ROUND(2.443, 2);
++-----------------+
+| ROUND(2.443, 2) |
++-----------------+
+|            2.44 |
++-----------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT ROUND(2.446, 2);
++-----------------+
+| ROUND(2.446, 2) |
++-----------------+
+|            2.45 |
++-----------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT ABS(-5);
++---------+
+| ABS(-5) |
++---------+
+|       5 |
++---------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT ABS(5-100);
++------------+
+| ABS(5-100) |
++------------+
+|         95 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT MOD(10, 3);
++------------+
+| MOD(10, 3) |
++------------+
+|          1 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT MOD(3, 10);
++------------+
+| MOD(3, 10) |
++------------+
+|          3 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT POW(2,3);
++----------+
+| POW(2,3) |
++----------+
+|        8 |
++----------+
+1 row in set (0.01 sec)
+
+MariaDB [college]> SELECT POW(2,-3);
++-----------+
+| POW(2,-3) |
++-----------+
+|     0.125 |
++-----------+
+1 row in set (0.00 sec)
+
+MariaDB [college]>
