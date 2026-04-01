@@ -1,0 +1,727 @@
+Microsoft Windows [Version 10.0.26200.8037]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\System32>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.38-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SELECT * FROM students;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> USE college;
+Database changed
+MariaDB [college]> SELECT * FROM students;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.01 sec)
+
+MariaDB [college]> SELECT Name FROM students;
++---------+
+| Name    |
++---------+
+| Asma    |
+| Bisma   |
+| Bushra  |
+| Bilal   |
+| Daniyal |
+| Ali     |
+| Gul     |
+| Hina    |
+| Iqra    |
++---------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT UPPER(Name) FROM students;
++-------------+
+| UPPER(Name) |
++-------------+
+| ASMA        |
+| BISMA       |
+| BUSHRA      |
+| BILAL       |
+| DANIYAL     |
+| ALI         |
+| GUL         |
+| HINA        |
+| IQRA        |
++-------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT LOWER(Name) FROM students;
++-------------+
+| LOWER(Name) |
++-------------+
+| asma        |
+| bisma       |
+| bushra      |
+| bilal       |
+| daniyal     |
+| ali         |
+| gul         |
+| hina        |
+| iqra        |
++-------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, Address FROM students;
++---------+------------+
+| Name    | Address    |
++---------+------------+
+| Asma    | Rawalpindi |
+| Bisma   | Lahore     |
+| Bushra  | Islamabad  |
+| Bilal   | Islamabad  |
+| Daniyal | Rawalpindi |
+| Ali     | Peshawar   |
+| Gul     | Nowshera   |
+| Hina    | Lahore     |
+| Iqra    | Islamabad  |
++---------+------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT CONCAT(Name, " is a student and lives in ", Address, ". His/her total marks are", Marks) FROM students;
++------------------------------------------------------------------------------------------+
+| CONCAT(Name, " is a student and lives in ", Address, ". His/her total marks are", Marks) |
++------------------------------------------------------------------------------------------+
+| Asma is a student and lives in Rawalpindi. His/her total marks are85                     |
+| Bisma is a student and lives in Lahore. His/her total marks are72                        |
+| Bushra is a student and lives in Islamabad. His/her total marks are91                    |
+| Bilal is a student and lives in Islamabad. His/her total marks are65                     |
+| Daniyal is a student and lives in Rawalpindi. His/her total marks are78                  |
+| Ali is a student and lives in Peshawar. His/her total marks are91                        |
+| NULL                                                                                     |
+| Hina is a student and lives in Lahore. His/her total marks are85                         |
+| Iqra is a student and lives in Islamabad. His/her total marks are55                      |
++------------------------------------------------------------------------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT CONCAT(Name, " is a student and lives in ", Address, ". His/her total marks are ", Marks) FROM students;
++-------------------------------------------------------------------------------------------+
+| CONCAT(Name, " is a student and lives in ", Address, ". His/her total marks are ", Marks) |
++-------------------------------------------------------------------------------------------+
+| Asma is a student and lives in Rawalpindi. His/her total marks are 85                     |
+| Bisma is a student and lives in Lahore. His/her total marks are 72                        |
+| Bushra is a student and lives in Islamabad. His/her total marks are 91                    |
+| Bilal is a student and lives in Islamabad. His/her total marks are 65                     |
+| Daniyal is a student and lives in Rawalpindi. His/her total marks are 78                  |
+| Ali is a student and lives in Peshawar. His/her total marks are 91                        |
+| NULL                                                                                      |
+| Hina is a student and lives in Lahore. His/her total marks are 85                         |
+| Iqra is a student and lives in Islamabad. His/her total marks are 55                      |
++-------------------------------------------------------------------------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT CONCAT("Irfan", " Khan");
++--------------------------+
+| CONCAT("Irfan", " Khan") |
++--------------------------+
+| Irfan Khan               |
++--------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT CONCAT("Irfan", " Khan", NULL);
++--------------------------------+
+| CONCAT("Irfan", " Khan", NULL) |
++--------------------------------+
+| NULL                           |
++--------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT CONCAT(Name, " is a student and lives in ", Address) FROM students;
++------------------------------------------------------+
+| CONCAT(Name, " is a student and lives in ", Address) |
++------------------------------------------------------+
+| Asma is a student and lives in Rawalpindi            |
+| Bisma is a student and lives in Lahore               |
+| Bushra is a student and lives in Islamabad           |
+| Bilal is a student and lives in Islamabad            |
+| Daniyal is a student and lives in Rawalpindi         |
+| Ali is a student and lives in Peshawar               |
+| Gul is a student and lives in Nowshera               |
+| Hina is a student and lives in Lahore                |
+| Iqra is a student and lives in Islamabad             |
++------------------------------------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name FROM students;
++---------+
+| Name    |
++---------+
+| Asma    |
+| Bisma   |
+| Bushra  |
+| Bilal   |
+| Daniyal |
+| Ali     |
+| Gul     |
+| Hina    |
+| Iqra    |
++---------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, LENGTH(Name) FROM students;
++---------+--------------+
+| Name    | LENGTH(Name) |
++---------+--------------+
+| Asma    |            4 |
+| Bisma   |            5 |
+| Bushra  |            6 |
+| Bilal   |            5 |
+| Daniyal |            7 |
+| Ali     |            3 |
+| Gul     |            3 |
+| Hina    |            4 |
+| Iqra    |            4 |
++---------+--------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, Marks, LENGTH(Marks) FROM students;
++---------+-------+---------------+
+| Name    | Marks | LENGTH(Marks) |
++---------+-------+---------------+
+| Asma    |    85 |             2 |
+| Bisma   |    72 |             2 |
+| Bushra  |    91 |             2 |
+| Bilal   |    65 |             2 |
+| Daniyal |    78 |             2 |
+| Ali     |    91 |             2 |
+| Gul     |  NULL |          NULL |
+| Hina    |    85 |             2 |
+| Iqra    |    55 |             2 |
++---------+-------+---------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name FROM students;
++---------+
+| Name    |
++---------+
+| Asma    |
+| Bisma   |
+| Bushra  |
+| Bilal   |
+| Daniyal |
+| Ali     |
+| Gul     |
+| Hina    |
+| Iqra    |
++---------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, SUBSTRING(Name, 0, 2) FROM students;
++---------+-----------------------+
+| Name    | SUBSTRING(Name, 0, 2) |
++---------+-----------------------+
+| Asma    |                       |
+| Bisma   |                       |
+| Bushra  |                       |
+| Bilal   |                       |
+| Daniyal |                       |
+| Ali     |                       |
+| Gul     |                       |
+| Hina    |                       |
+| Iqra    |                       |
++---------+-----------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, SUBSTRING(Name, 1, 2) FROM students;
++---------+-----------------------+
+| Name    | SUBSTRING(Name, 1, 2) |
++---------+-----------------------+
+| Asma    | As                    |
+| Bisma   | Bi                    |
+| Bushra  | Bu                    |
+| Bilal   | Bi                    |
+| Daniyal | Da                    |
+| Ali     | Al                    |
+| Gul     | Gu                    |
+| Hina    | Hi                    |
+| Iqra    | Iq                    |
++---------+-----------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, SUBSTRING(Name, 1, 3) FROM students;
++---------+-----------------------+
+| Name    | SUBSTRING(Name, 1, 3) |
++---------+-----------------------+
+| Asma    | Asm                   |
+| Bisma   | Bis                   |
+| Bushra  | Bus                   |
+| Bilal   | Bil                   |
+| Daniyal | Dan                   |
+| Ali     | Ali                   |
+| Gul     | Gul                   |
+| Hina    | Hin                   |
+| Iqra    | Iqr                   |
++---------+-----------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, SUBSTRING(Name, -1, 3) FROM students;
++---------+------------------------+
+| Name    | SUBSTRING(Name, -1, 3) |
++---------+------------------------+
+| Asma    | a                      |
+| Bisma   | a                      |
+| Bushra  | a                      |
+| Bilal   | l                      |
+| Daniyal | l                      |
+| Ali     | i                      |
+| Gul     | l                      |
+| Hina    | a                      |
+| Iqra    | a                      |
++---------+------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, SUBSTRING(Name, -1, -3) FROM students;
++---------+-------------------------+
+| Name    | SUBSTRING(Name, -1, -3) |
++---------+-------------------------+
+| Asma    |                         |
+| Bisma   |                         |
+| Bushra  |                         |
+| Bilal   |                         |
+| Daniyal |                         |
+| Ali     |                         |
+| Gul     |                         |
+| Hina    |                         |
+| Iqra    |                         |
++---------+-------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, SUBSTRING(Name, -3) FROM students;
++---------+---------------------+
+| Name    | SUBSTRING(Name, -3) |
++---------+---------------------+
+| Asma    | sma                 |
+| Bisma   | sma                 |
+| Bushra  | hra                 |
+| Bilal   | lal                 |
+| Daniyal | yal                 |
+| Ali     | Ali                 |
+| Gul     | Gul                 |
+| Hina    | ina                 |
+| Iqra    | qra                 |
++---------+---------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, SUBSTRING(Name, -2) FROM students;
++---------+---------------------+
+| Name    | SUBSTRING(Name, -2) |
++---------+---------------------+
+| Asma    | ma                  |
+| Bisma   | ma                  |
+| Bushra  | ra                  |
+| Bilal   | al                  |
+| Daniyal | al                  |
+| Ali     | li                  |
+| Gul     | ul                  |
+| Hina    | na                  |
+| Iqra    | ra                  |
++---------+---------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, SUBSTRING(Name, 2) FROM students;
++---------+--------------------+
+| Name    | SUBSTRING(Name, 2) |
++---------+--------------------+
+| Asma    | sma                |
+| Bisma   | isma               |
+| Bushra  | ushra              |
+| Bilal   | ilal               |
+| Daniyal | aniyal             |
+| Ali     | li                 |
+| Gul     | ul                 |
+| Hina    | ina                |
+| Iqra    | qra                |
++---------+--------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, SUBSTRING(Name, 2, 1) FROM students;
++---------+-----------------------+
+| Name    | SUBSTRING(Name, 2, 1) |
++---------+-----------------------+
+| Asma    | s                     |
+| Bisma   | i                     |
+| Bushra  | u                     |
+| Bilal   | i                     |
+| Daniyal | a                     |
+| Ali     | l                     |
+| Gul     | u                     |
+| Hina    | i                     |
+| Iqra    | q                     |
++---------+-----------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, SUBSTRING(Name, 2, 10) FROM students;
++---------+------------------------+
+| Name    | SUBSTRING(Name, 2, 10) |
++---------+------------------------+
+| Asma    | sma                    |
+| Bisma   | isma                   |
+| Bushra  | ushra                  |
+| Bilal   | ilal                   |
+| Daniyal | aniyal                 |
+| Ali     | li                     |
+| Gul     | ul                     |
+| Hina    | ina                    |
+| Iqra    | qra                    |
++---------+------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, REPLACE(Name, 'a', '@') FROM students;
++---------+-------------------------+
+| Name    | REPLACE(Name, 'a', '@') |
++---------+-------------------------+
+| Asma    | Asm@                    |
+| Bisma   | Bism@                   |
+| Bushra  | Bushr@                  |
+| Bilal   | Bil@l                   |
+| Daniyal | D@niy@l                 |
+| Ali     | Ali                     |
+| Gul     | Gul                     |
+| Hina    | Hin@                    |
+| Iqra    | Iqr@                    |
++---------+-------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, REPLACE(LOWER(Name), 'a', '@') FROM students;
++---------+--------------------------------+
+| Name    | REPLACE(LOWER(Name), 'a', '@') |
++---------+--------------------------------+
+| Asma    | @sm@                           |
+| Bisma   | bism@                          |
+| Bushra  | bushr@                         |
+| Bilal   | bil@l                          |
+| Daniyal | d@niy@l                        |
+| Ali     | @li                            |
+| Gul     | gul                            |
+| Hina    | hin@                           |
+| Iqra    | iqr@                           |
++---------+--------------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, REVERSE(Name) FROM students;
++---------+---------------+
+| Name    | REVERSE(Name) |
++---------+---------------+
+| Asma    | amsA          |
+| Bisma   | amsiB         |
+| Bushra  | arhsuB        |
+| Bilal   | laliB         |
+| Daniyal | layinaD       |
+| Ali     | ilA           |
+| Gul     | luG           |
+| Hina    | aniH          |
+| Iqra    | arqI          |
++---------+---------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, Marks, REVERSE(Marks) FROM students;
++---------+-------+----------------+
+| Name    | Marks | REVERSE(Marks) |
++---------+-------+----------------+
+| Asma    |    85 | 58             |
+| Bisma   |    72 | 27             |
+| Bushra  |    91 | 19             |
+| Bilal   |    65 | 56             |
+| Daniyal |    78 | 87             |
+| Ali     |    91 | 19             |
+| Gul     |  NULL | NULL           |
+| Hina    |    85 | 58             |
+| Iqra    |    55 | 55             |
++---------+-------+----------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, Marks, REVERSE(NULLIF(Marks, 0)) FROM students;
++---------+-------+---------------------------+
+| Name    | Marks | REVERSE(NULLIF(Marks, 0)) |
++---------+-------+---------------------------+
+| Asma    |    85 | 58                        |
+| Bisma   |    72 | 27                        |
+| Bushra  |    91 | 19                        |
+| Bilal   |    65 | 56                        |
+| Daniyal |    78 | 87                        |
+| Ali     |    91 | 19                        |
+| Gul     |  NULL | NULL                      |
+| Hina    |    85 | 58                        |
+| Iqra    |    55 | 55                        |
++---------+-------+---------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, Marks, REVERSE(IFNULL(Marks, 0)) FROM students;
++---------+-------+---------------------------+
+| Name    | Marks | REVERSE(IFNULL(Marks, 0)) |
++---------+-------+---------------------------+
+| Asma    |    85 | 58                        |
+| Bisma   |    72 | 27                        |
+| Bushra  |    91 | 19                        |
+| Bilal   |    65 | 56                        |
+| Daniyal |    78 | 87                        |
+| Ali     |    91 | 19                        |
+| Gul     |  NULL | 0                         |
+| Hina    |    85 | 58                        |
+| Iqra    |    55 | 55                        |
++---------+-------+---------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Name, IFNULL(Marks, 0), REVERSE(IFNULL(Marks, 0)) FROM students;
++---------+------------------+---------------------------+
+| Name    | IFNULL(Marks, 0) | REVERSE(IFNULL(Marks, 0)) |
++---------+------------------+---------------------------+
+| Asma    |               85 | 58                        |
+| Bisma   |               72 | 27                        |
+| Bushra  |               91 | 19                        |
+| Bilal   |               65 | 56                        |
+| Daniyal |               78 | 87                        |
+| Ali     |               91 | 19                        |
+| Gul     |                0 | 0                         |
+| Hina    |               85 | 58                        |
+| Iqra    |               55 | 55                        |
++---------+------------------+---------------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> -- GROUP BY
+MariaDB [college]> SELECT Address FROM students;
++------------+
+| Address    |
++------------+
+| Rawalpindi |
+| Lahore     |
+| Islamabad  |
+| Islamabad  |
+| Rawalpindi |
+| Peshawar   |
+| Nowshera   |
+| Lahore     |
+| Islamabad  |
++------------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Address, COUNT(*) FROM students;
++------------+----------+
+| Address    | COUNT(*) |
++------------+----------+
+| Rawalpindi |        9 |
++------------+----------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT Address, COUNT(*) FROM students GROUP BY Address;
++------------+----------+
+| Address    | COUNT(*) |
++------------+----------+
+| Islamabad  |        3 |
+| Lahore     |        2 |
+| Nowshera   |        1 |
+| Peshawar   |        1 |
+| Rawalpindi |        2 |
++------------+----------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Age, COUNT(*) FROM students GROUP BY Age;
++------+----------+
+| Age  | COUNT(*) |
++------+----------+
+| NULL |        1 |
+|   20 |        3 |
+|   21 |        1 |
+|   22 |        2 |
+|   23 |        1 |
+|   24 |        1 |
++------+----------+
+6 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Marks, COUNT(*) FROM students GROUP BY Marks;
++-------+----------+
+| Marks | COUNT(*) |
++-------+----------+
+|  NULL |        1 |
+|    55 |        1 |
+|    65 |        1 |
+|    72 |        1 |
+|    78 |        1 |
+|    85 |        2 |
+|    91 |        2 |
++-------+----------+
+7 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Address, COUNT(*) FROM students GROUP BY Address;
++------------+----------+
+| Address    | COUNT(*) |
++------------+----------+
+| Islamabad  |        3 |
+| Lahore     |        2 |
+| Nowshera   |        1 |
+| Peshawar   |        1 |
+| Rawalpindi |        2 |
++------------+----------+
+5 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Address,Age, COUNT(*) FROM students GROUP BY Address, Age;
++------------+------+----------+
+| Address    | Age  | COUNT(*) |
++------------+------+----------+
+| Islamabad  | NULL |        1 |
+| Islamabad  |   21 |        1 |
+| Islamabad  |   23 |        1 |
+| Lahore     |   20 |        1 |
+| Lahore     |   22 |        1 |
+| Nowshera   |   24 |        1 |
+| Peshawar   |   22 |        1 |
+| Rawalpindi |   20 |        2 |
++------------+------+----------+
+8 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Address,Age, COUNT(*) FROM students GROUP BY Address, Age ORDER BY 1 DESC;
++------------+------+----------+
+| Address    | Age  | COUNT(*) |
++------------+------+----------+
+| Rawalpindi |   20 |        2 |
+| Peshawar   |   22 |        1 |
+| Nowshera   |   24 |        1 |
+| Lahore     |   20 |        1 |
+| Lahore     |   22 |        1 |
+| Islamabad  | NULL |        1 |
+| Islamabad  |   21 |        1 |
+| Islamabad  |   23 |        1 |
++------------+------+----------+
+8 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Address,Age, COUNT(*) FROM students GROUP BY Address, Age ORDER BY 3 ASC;
++------------+------+----------+
+| Address    | Age  | COUNT(*) |
++------------+------+----------+
+| Islamabad  | NULL |        1 |
+| Nowshera   |   24 |        1 |
+| Islamabad  |   23 |        1 |
+| Lahore     |   22 |        1 |
+| Lahore     |   20 |        1 |
+| Peshawar   |   22 |        1 |
+| Islamabad  |   21 |        1 |
+| Rawalpindi |   20 |        2 |
++------------+------+----------+
+8 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Address,Age, COUNT(*) FROM students GROUP BY Address, Age ORDER BY 3 DESC;
++------------+------+----------+
+| Address    | Age  | COUNT(*) |
++------------+------+----------+
+| Rawalpindi |   20 |        2 |
+| Islamabad  | NULL |        1 |
+| Nowshera   |   24 |        1 |
+| Islamabad  |   23 |        1 |
+| Lahore     |   22 |        1 |
+| Lahore     |   20 |        1 |
+| Peshawar   |   22 |        1 |
+| Islamabad  |   21 |        1 |
++------------+------+----------+
+8 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Address,Age, COUNT(*) AS total FROM students GROUP BY Address, Age ORDER BY 3 DESC;
++------------+------+-------+
+| Address    | Age  | total |
++------------+------+-------+
+| Rawalpindi |   20 |     2 |
+| Islamabad  | NULL |     1 |
+| Nowshera   |   24 |     1 |
+| Islamabad  |   23 |     1 |
+| Lahore     |   22 |     1 |
+| Lahore     |   20 |     1 |
+| Peshawar   |   22 |     1 |
+| Islamabad  |   21 |     1 |
++------------+------+-------+
+8 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT * FROM students;
++----+---------+------+------------+-------+
+| ID | Name    | Age  | Address    | Marks |
++----+---------+------+------------+-------+
+|  1 | Asma    |   20 | Rawalpindi |    85 |
+|  2 | Bisma   |   22 | Lahore     |    72 |
+|  3 | Bushra  |   21 | Islamabad  |    91 |
+|  4 | Bilal   |   23 | Islamabad  |    65 |
+|  5 | Daniyal |   20 | Rawalpindi |    78 |
+|  6 | Ali     |   22 | Peshawar   |    91 |
+|  7 | Gul     |   24 | Nowshera   |  NULL |
+|  8 | Hina    |   20 | Lahore     |    85 |
+|  9 | Iqra    | NULL | Islamabad  |    55 |
++----+---------+------+------------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Age, COUNT(*) as TotalStudents FROM students GROUP BY Age;
++------+---------------+
+| Age  | TotalStudents |
++------+---------------+
+| NULL |             1 |
+|   20 |             3 |
+|   21 |             1 |
+|   22 |             2 |
+|   23 |             1 |
+|   24 |             1 |
++------+---------------+
+6 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Age, COUNT(*) as TotalStudents FROM students GROUP BY Age ORDER BY 2 DESC;
++------+---------------+
+| Age  | TotalStudents |
++------+---------------+
+|   20 |             3 |
+|   22 |             2 |
+|   21 |             1 |
+|   23 |             1 |
+|   24 |             1 |
+| NULL |             1 |
++------+---------------+
+6 rows in set (0.00 sec)
+
+MariaDB [college]> SELECT Age, COUNT(*) as TotalStudents FROM students GROUP BY Age ORDER BY 2 DESC LIMIT 1;
++------+---------------+
+| Age  | TotalStudents |
++------+---------------+
+|   20 |             3 |
++------+---------------+
+1 row in set (0.00 sec)
+
+MariaDB [college]> SELECT Age FROM (SELECT Age, COUNT(*) as TotalStudents FROM students GROUP BY Age ORDER BY 2 DESC LIMIT 1);
+ERROR 1248 (42000): Every derived table must have its own alias
+MariaDB [college]> SELECT StntAge FROM (SELECT Age as StntAge, COUNT(*) as TotalStudents FROM students GROUP BY Age ORDER BY 2 DESC LIMIT 1);
+ERROR 1248 (42000): Every derived table must have its own alias
+MariaDB [college]> SELECT StntAge FROM (SELECT Age as StntAge, COUNT(*) as TotalStudents FROM students GROUP BY Age ORDER BY 2 DESC LIMIT 1) as Agr;
++---------+
+| StntAge |
++---------+
+|      20 |
++---------+
+1 row in set (0.00 sec)
+
+MariaDB [college]>
