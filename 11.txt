@@ -1,0 +1,562 @@
+Microsoft Windows [Version 10.0.26200.8037]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\System32>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.38-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> CREATE DATABASE clinic;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [(none)]> USE clinic;
+Database changed
+MariaDB [clinic]> CREATE TABLE patients (
+    ->     ID   INT,
+    ->     Name VARCHAR(20),
+    ->     City TEXT
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+MariaDB [clinic]> DESC patients;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int(11)     | YES  |     | NULL    |       |
+| Name  | varchar(20) | YES  |     | NULL    |       |
+| City  | text        | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+MariaDB [clinic]> DROP TABLE patients;
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [clinic]> CREATE TABLE patients (
+    ->     ID   INT NOT NULL UNIQUE AUTO_INCREMENT,
+    ->     Name VARCHAR(30) NOT NULL,
+    ->     City TEXT
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+MariaDB [clinic]> INSERT INTO patients (City) VALUES ("Islamabad");
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MariaDB [clinic]> SELECT * FROM patients;
++----+------+-----------+
+| ID | Name | City      |
++----+------+-----------+
+|  1 |      | Islamabad |
++----+------+-----------+
+1 row in set (0.00 sec)
+
+MariaDB [clinic]> INSERT INTO patients (ID, Name) VALUES (1, "Ahmad");
+ERROR 1062 (23000): Duplicate entry '1' for key 'ID'
+MariaDB [clinic]> INSERT INTO patients (ID, Name) VALUES (NULL, "Zara");
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [clinic]> SELECT * FROM patients;
++----+------+-----------+
+| ID | Name | City      |
++----+------+-----------+
+|  1 |      | Islamabad |
+|  2 | Zara | NULL      |
++----+------+-----------+
+2 rows in set (0.00 sec)
+
+MariaDB [clinic]> ALTER TABLE patients ADD COLUMN Age INT AFTER Name;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> SELECT * FROM patients;
++----+------+------+-----------+
+| ID | Name | Age  | City      |
++----+------+------+-----------+
+|  1 |      | NULL | Islamabad |
+|  2 | Zara | NULL | NULL      |
++----+------+------+-----------+
+2 rows in set (0.00 sec)
+
+MariaDB [clinic]> ALTER TABLE patients ADD COLUMN Fee INT;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> SELECT * FROM patients;
++----+------+------+-----------+------+
+| ID | Name | Age  | City      | Fee  |
++----+------+------+-----------+------+
+|  1 |      | NULL | Islamabad | NULL |
+|  2 | Zara | NULL | NULL      | NULL |
++----+------+------+-----------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [clinic]> ALTER TABLE patients ADD COLUMN contact_no VARCHAR(11);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> SELECT * FROM patients;
++----+------+------+-----------+------+------------+
+| ID | Name | Age  | City      | Fee  | contact_no |
++----+------+------+-----------+------+------------+
+|  1 |      | NULL | Islamabad | NULL | NULL       |
+|  2 | Zara | NULL | NULL      | NULL | NULL       |
++----+------+------+-----------+------+------------+
+2 rows in set (0.00 sec)
+
+MariaDB [clinic]> ALTER TABLE patients CHANGE contact_no ContactNo VARCHAR(11);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> SELECT * FROM patients;
++----+------+------+-----------+------+-----------+
+| ID | Name | Age  | City      | Fee  | ContactNo |
++----+------+------+-----------+------+-----------+
+|  1 |      | NULL | Islamabad | NULL | NULL      |
+|  2 | Zara | NULL | NULL      | NULL | NULL      |
++----+------+------+-----------+------+-----------+
+2 rows in set (0.00 sec)
+
+MariaDB [clinic]> ALTER TABLE patients DROP COLUMN ContactNo;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> SELECT * FROM patients;
++----+------+------+-----------+------+
+| ID | Name | Age  | City      | Fee  |
++----+------+------+-----------+------+
+|  1 |      | NULL | Islamabad | NULL |
+|  2 | Zara | NULL | NULL      | NULL |
++----+------+------+-----------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [clinic]> ALTER TABLE patients
+    ->     ADD COLUMN ContactNo VARCHAR(11),
+    ->     CHANGE Name Name VARCHAR(50);
+Query OK, 2 rows affected (0.06 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> DESC patients;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| ID        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| Name      | varchar(50) | YES  |     | NULL    |                |
+| Age       | int(11)     | YES  |     | NULL    |                |
+| City      | text        | YES  |     | NULL    |                |
+| Fee       | int(11)     | YES  |     | NULL    |                |
+| ContactNo | varchar(11) | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+6 rows in set (0.02 sec)
+
+MariaDB [clinic]> ALTER TABLE patients DROP COLUMN ContactNo;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> INSERT INTO patients (Name, Age, City, Fee) VALUES
+    ->     ("Tariq",   45, "Islamabad",  3500),
+    ->     ("Sana",    32, "Lahore",     2800),
+    ->     ("Hamid",   60, "Peshawar",   4200),
+    ->     ("Nadia",   28, "Rawalpindi", 3500),
+    ->     ("Junaid",  55, "Islamabad",  5000),
+    ->     ("Farida",  40, "Lahore",     2800),
+    ->     ("Usman",   70, "Nowshera",   NULL),
+    ->     ("Rabia",   35, "Rawalpindi", 4200),
+    ->     ("Shahzad", NULL, "Islamabad", 1500);
+Query OK, 9 rows affected (0.01 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> SELECT * FROM patients;
++----+---------+------+------------+------+
+| ID | Name    | Age  | City       | Fee  |
++----+---------+------+------------+------+
+|  1 |         | NULL | Islamabad  | NULL |
+|  2 | Zara    | NULL | NULL       | NULL |
+|  3 | Tariq   |   45 | Islamabad  | 3500 |
+|  4 | Sana    |   32 | Lahore     | 2800 |
+|  5 | Hamid   |   60 | Peshawar   | 4200 |
+|  6 | Nadia   |   28 | Rawalpindi | 3500 |
+|  7 | Junaid  |   55 | Islamabad  | 5000 |
+|  8 | Farida  |   40 | Lahore     | 2800 |
+|  9 | Usman   |   70 | Nowshera   | NULL |
+| 10 | Rabia   |   35 | Rawalpindi | 4200 |
+| 11 | Shahzad | NULL | Islamabad  | 1500 |
++----+---------+------+------------+------+
+11 rows in set (0.00 sec)
+
+MariaDB [clinic]> TRUNCATE patients;
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [clinic]> SELECT * FROM patients;
+Empty set (0.00 sec)
+
+MariaDB [clinic]> INSERT INTO patients (Name, Age, City, Fee) VALUES
+    ->     ("Tariq",   45, "Islamabad",  3500),
+    ->     ("Sana",    32, "Lahore",     2800),
+    ->     ("Hamid",   60, "Peshawar",   4200),
+    ->     ("Nadia",   28, "Rawalpindi", 3500),
+    ->     ("Junaid",  55, "Islamabad",  5000),
+    ->     ("Farida",  40, "Lahore",     2800),
+    ->     ("Usman",   70, "Nowshera",   NULL),
+    ->     ("Rabia",   35, "Rawalpindi", 4200),
+    ->     ("Shahzad", NULL, "Islamabad", 1500);
+Query OK, 9 rows affected (0.01 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> SELECT * FROM patients;
++----+---------+------+------------+------+
+| ID | Name    | Age  | City       | Fee  |
++----+---------+------+------------+------+
+|  1 | Tariq   |   45 | Islamabad  | 3500 |
+|  2 | Sana    |   32 | Lahore     | 2800 |
+|  3 | Hamid   |   60 | Peshawar   | 4200 |
+|  4 | Nadia   |   28 | Rawalpindi | 3500 |
+|  5 | Junaid  |   55 | Islamabad  | 5000 |
+|  6 | Farida  |   40 | Lahore     | 2800 |
+|  7 | Usman   |   70 | Nowshera   | NULL |
+|  8 | Rabia   |   35 | Rawalpindi | 4200 |
+|  9 | Shahzad | NULL | Islamabad  | 1500 |
++----+---------+------+------------+------+
+9 rows in set (0.00 sec)
+
+MariaDB [clinic]> UPDATE patients SET Name = "Fareeda" WHERE ID = 6;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [clinic]> UPDATE patients SET City = "Islamabad", Fee = 4500 WHERE ID = 3;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [clinic]> DELETE FROM patients WHERE ID = 9;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [clinic]> SELECT ID, Name FROM patients;
++----+---------+
+| ID | Name    |
++----+---------+
+|  1 | Tariq   |
+|  2 | Sana    |
+|  3 | Hamid   |
+|  4 | Nadia   |
+|  5 | Junaid  |
+|  6 | Fareeda |
+|  7 | Usman   |
+|  8 | Rabia   |
++----+---------+
+8 rows in set (0.00 sec)
+
+MariaDB [clinic]> SELECT Name, City, Fee FROM patients;
++---------+------------+------+
+| Name    | City       | Fee  |
++---------+------------+------+
+| Tariq   | Islamabad  | 3500 |
+| Sana    | Lahore     | 2800 |
+| Hamid   | Islamabad  | 4500 |
+| Nadia   | Rawalpindi | 3500 |
+| Junaid  | Islamabad  | 5000 |
+| Fareeda | Lahore     | 2800 |
+| Usman   | Nowshera   | NULL |
+| Rabia   | Rawalpindi | 4200 |
++---------+------------+------+
+8 rows in set (0.00 sec)
+
+MariaDB [clinic]> SELECT ID AS "Patient No", Name AS "Full Name", Fee AS "Consultation Fee"
+    -> FROM patients;
++------------+-----------+------------------+
+| Patient No | Full Name | Consultation Fee |
++------------+-----------+------------------+
+|          1 | Tariq     |             3500 |
+|          2 | Sana      |             2800 |
+|          3 | Hamid     |             4500 |
+|          4 | Nadia     |             3500 |
+|          5 | Junaid    |             5000 |
+|          6 | Fareeda   |             2800 |
+|          7 | Usman     |             NULL |
+|          8 | Rabia     |             4200 |
++------------+-----------+------------------+
+8 rows in set (0.00 sec)
+
+MariaDB [clinic]> SELECT Name, Fee, Fee * 0.9 AS "Discounted Fee" FROM patients;
++---------+------+----------------+
+| Name    | Fee  | Discounted Fee |
++---------+------+----------------+
+| Tariq   | 3500 |         3150.0 |
+| Sana    | 2800 |         2520.0 |
+| Hamid   | 4500 |         4050.0 |
+| Nadia   | 3500 |         3150.0 |
+| Junaid  | 5000 |         4500.0 |
+| Fareeda | 2800 |         2520.0 |
+| Usman   | NULL |           NULL |
+| Rabia   | 4200 |         3780.0 |
++---------+------+----------------+
+8 rows in set (0.00 sec)
+
+MariaDB [clinic]> SELECT Name, Fee, ROUND(Fee / 280.0, 2) AS "Fee (USD)" FROM patients;
++---------+------+-----------+
+| Name    | Fee  | Fee (USD) |
++---------+------+-----------+
+| Tariq   | 3500 |     12.50 |
+| Sana    | 2800 |     10.00 |
+| Hamid   | 4500 |     16.07 |
+| Nadia   | 3500 |     12.50 |
+| Junaid  | 5000 |     17.86 |
+| Fareeda | 2800 |     10.00 |
+| Usman   | NULL |      NULL |
+| Rabia   | 4200 |     15.00 |
++---------+------+-----------+
+8 rows in set (0.00 sec)
+
+MariaDB [clinic]> CREATE TABLE doctors (
+    ->     ID             INT AUTO_INCREMENT PRIMARY KEY,
+    ->     Name           VARCHAR(50) NOT NULL,
+    ->     Specialization VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [clinic]> INSERT INTO doctors (Name, Specialization) VALUES
+    ->     ("Dr. Khalid",  "Cardiology"),
+    ->     ("Dr. Ayesha",  "General Medicine");
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> SELECT * FROM doctors;
++----+------------+------------------+
+| ID | Name       | Specialization   |
++----+------------+------------------+
+|  1 | Dr. Khalid | Cardiology       |
+|  2 | Dr. Ayesha | General Medicine |
++----+------------+------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [clinic]> ALTER TABLE patients ADD COLUMN doctor_id INT;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> UPDATE patients SET doctor_id = 1 WHERE ID IN (1, 3, 5, 7, 8);
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+MariaDB [clinic]> UPDATE patients SET doctor_id = 2 WHERE doctor_id IS NULL;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+MariaDB [clinic]> SEELCT * FROM patients;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SEELCT * FROM patients' at line 1
+MariaDB [clinic]> SELECT * FROM patients;
++----+---------+------+------------+------+-----------+
+| ID | Name    | Age  | City       | Fee  | doctor_id |
++----+---------+------+------------+------+-----------+
+|  1 | Tariq   |   45 | Islamabad  | 3500 |         1 |
+|  2 | Sana    |   32 | Lahore     | 2800 |         2 |
+|  3 | Hamid   |   60 | Islamabad  | 4500 |         1 |
+|  4 | Nadia   |   28 | Rawalpindi | 3500 |         2 |
+|  5 | Junaid  |   55 | Islamabad  | 5000 |         1 |
+|  6 | Fareeda |   40 | Lahore     | 2800 |         2 |
+|  7 | Usman   |   70 | Nowshera   | NULL |         1 |
+|  8 | Rabia   |   35 | Rawalpindi | 4200 |         1 |
++----+---------+------+------------+------+-----------+
+8 rows in set (0.00 sec)
+
+MariaDB [clinic]> SELECT * FROM patients pt INNER JOIN doctors doc ON pt.doctor_id = doc.ID;
++----+---------+------+------------+------+-----------+----+------------+------------------+
+| ID | Name    | Age  | City       | Fee  | doctor_id | ID | Name       | Specialization   |
++----+---------+------+------------+------+-----------+----+------------+------------------+
+|  1 | Tariq   |   45 | Islamabad  | 3500 |         1 |  1 | Dr. Khalid | Cardiology       |
+|  2 | Sana    |   32 | Lahore     | 2800 |         2 |  2 | Dr. Ayesha | General Medicine |
+|  3 | Hamid   |   60 | Islamabad  | 4500 |         1 |  1 | Dr. Khalid | Cardiology       |
+|  4 | Nadia   |   28 | Rawalpindi | 3500 |         2 |  2 | Dr. Ayesha | General Medicine |
+|  5 | Junaid  |   55 | Islamabad  | 5000 |         1 |  1 | Dr. Khalid | Cardiology       |
+|  6 | Fareeda |   40 | Lahore     | 2800 |         2 |  2 | Dr. Ayesha | General Medicine |
+|  7 | Usman   |   70 | Nowshera   | NULL |         1 |  1 | Dr. Khalid | Cardiology       |
+|  8 | Rabia   |   35 | Rawalpindi | 4200 |         1 |  1 | Dr. Khalid | Cardiology       |
++----+---------+------+------------+------+-----------+----+------------+------------------+
+8 rows in set (0.00 sec)
+
+MariaDB [clinic]> SELECT Name, Name FROM patients pt INNER JOIN doctors doc ON pt.doctor_id = doc.ID;
+ERROR 1052 (23000): Column 'Name' in field list is ambiguous
+MariaDB [clinic]> SELECT pt.Name, doc.Name FROM patients pt INNER JOIN doctors doc ON pt.doctor_id = doc.ID;
++---------+------------+
+| Name    | Name       |
++---------+------------+
+| Tariq   | Dr. Khalid |
+| Sana    | Dr. Ayesha |
+| Hamid   | Dr. Khalid |
+| Nadia   | Dr. Ayesha |
+| Junaid  | Dr. Khalid |
+| Fareeda | Dr. Ayesha |
+| Usman   | Dr. Khalid |
+| Rabia   | Dr. Khalid |
++---------+------------+
+8 rows in set (0.00 sec)
+
+MariaDB [clinic]> SELECT pt.Name, doc.Name FROM patients pt LEFT JOIN doctors doc ON pt.doctor_id = doc.ID;
++---------+------------+
+| Name    | Name       |
++---------+------------+
+| Tariq   | Dr. Khalid |
+| Sana    | Dr. Ayesha |
+| Hamid   | Dr. Khalid |
+| Nadia   | Dr. Ayesha |
+| Junaid  | Dr. Khalid |
+| Fareeda | Dr. Ayesha |
+| Usman   | Dr. Khalid |
+| Rabia   | Dr. Khalid |
++---------+------------+
+8 rows in set (0.00 sec)
+
+MariaDB [clinic]> INSERT INTO patients VALUES (NULL, "Waleed", 29, "Abbottabad", 2000, NULL);
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [clinic]> SELECT pt.Name, doc.Name FROM patients pt LEFT JOIN doctors doc ON pt.doctor_id = doc.ID;
++---------+------------+
+| Name    | Name       |
++---------+------------+
+| Tariq   | Dr. Khalid |
+| Sana    | Dr. Ayesha |
+| Hamid   | Dr. Khalid |
+| Nadia   | Dr. Ayesha |
+| Junaid  | Dr. Khalid |
+| Fareeda | Dr. Ayesha |
+| Usman   | Dr. Khalid |
+| Rabia   | Dr. Khalid |
+| Waleed  | NULL       |
++---------+------------+
+9 rows in set (0.00 sec)
+
+MariaDB [clinic]> CREATE TABLE appointments (
+    ->     ID         INT AUTO_INCREMENT PRIMARY KEY,
+    ->     patient_id INT NOT NULL,
+    ->     doctor_id  INT,
+    ->     AppDate    DATE NOT NULL,
+    ->     Status     VARCHAR(20) DEFAULT "Scheduled"
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [clinic]> INSERT INTO appointments (patient_id, doctor_id, AppDate, Status) VALUES
+    ->     (1,  1, "2026-04-01", "Completed"),
+    ->     (2,  2, "2026-04-02", "Completed"),
+    ->     (3,  1, "2026-04-03", "Completed"),
+    ->     (4,  2, "2026-04-05", "Completed"),
+    ->     (5,  1, "2026-04-07", "Scheduled"),
+    ->     (6,  2, "2026-04-08", "Cancelled"),
+    ->     (7,  1, "2026-04-10", "Scheduled"),
+    ->     (8,  1, "2026-04-11", "Scheduled"),
+    ->     (9,  2, "2026-04-12", "Scheduled"),
+    ->     (10, NULL, "2026-04-14", "Scheduled"),
+    ->     (1,  1, "2026-04-15", "Scheduled"),
+    ->     (2,  2, "2026-04-16", "Scheduled");
+Query OK, 12 rows affected (0.01 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+MariaDB [clinic]> SELECT * FROM appointments;
++----+------------+-----------+------------+-----------+
+| ID | patient_id | doctor_id | AppDate    | Status    |
++----+------------+-----------+------------+-----------+
+|  1 |          1 |         1 | 2026-04-01 | Completed |
+|  2 |          2 |         2 | 2026-04-02 | Completed |
+|  3 |          3 |         1 | 2026-04-03 | Completed |
+|  4 |          4 |         2 | 2026-04-05 | Completed |
+|  5 |          5 |         1 | 2026-04-07 | Scheduled |
+|  6 |          6 |         2 | 2026-04-08 | Cancelled |
+|  7 |          7 |         1 | 2026-04-10 | Scheduled |
+|  8 |          8 |         1 | 2026-04-11 | Scheduled |
+|  9 |          9 |         2 | 2026-04-12 | Scheduled |
+| 10 |         10 |      NULL | 2026-04-14 | Scheduled |
+| 11 |          1 |         1 | 2026-04-15 | Scheduled |
+| 12 |          2 |         2 | 2026-04-16 | Scheduled |
++----+------------+-----------+------------+-----------+
+12 rows in set (0.00 sec)
+
+MariaDB [clinic]> INSERT INTO appointments (patient_id, doctor_id, AppDate)
+    -> VALUES (3, 1, "2026-04-20");
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [clinic]> SELECT * FROM appointments app INNER JOIN patients pt ON pt.ID = app.doctor_id;
++----+------------+-----------+------------+-----------+----+-------+------+-----------+------+-----------+
+| ID | patient_id | doctor_id | AppDate    | Status    | ID | Name  | Age  | City      | Fee  | doctor_id |
++----+------------+-----------+------------+-----------+----+-------+------+-----------+------+-----------+
+|  1 |          1 |         1 | 2026-04-01 | Completed |  1 | Tariq |   45 | Islamabad | 3500 |         1 |
+|  2 |          2 |         2 | 2026-04-02 | Completed |  2 | Sana  |   32 | Lahore    | 2800 |         2 |
+|  3 |          3 |         1 | 2026-04-03 | Completed |  1 | Tariq |   45 | Islamabad | 3500 |         1 |
+|  4 |          4 |         2 | 2026-04-05 | Completed |  2 | Sana  |   32 | Lahore    | 2800 |         2 |
+|  5 |          5 |         1 | 2026-04-07 | Scheduled |  1 | Tariq |   45 | Islamabad | 3500 |         1 |
+|  6 |          6 |         2 | 2026-04-08 | Cancelled |  2 | Sana  |   32 | Lahore    | 2800 |         2 |
+|  7 |          7 |         1 | 2026-04-10 | Scheduled |  1 | Tariq |   45 | Islamabad | 3500 |         1 |
+|  8 |          8 |         1 | 2026-04-11 | Scheduled |  1 | Tariq |   45 | Islamabad | 3500 |         1 |
+|  9 |          9 |         2 | 2026-04-12 | Scheduled |  2 | Sana  |   32 | Lahore    | 2800 |         2 |
+| 11 |          1 |         1 | 2026-04-15 | Scheduled |  1 | Tariq |   45 | Islamabad | 3500 |         1 |
+| 12 |          2 |         2 | 2026-04-16 | Scheduled |  2 | Sana  |   32 | Lahore    | 2800 |         2 |
+| 13 |          3 |         1 | 2026-04-20 | Scheduled |  1 | Tariq |   45 | Islamabad | 3500 |         1 |
++----+------------+-----------+------------+-----------+----+-------+------+-----------+------+-----------+
+12 rows in set (0.00 sec)
+
+ ariaDB [clinic]> SELECT pt.Name, app.* FROM appointments app INNER JOIN patients pt ON pt.ID = app.doctor_id;
++-------+----+------------+-----------+------------+-----------+
+| Name  | ID | patient_id | doctor_id | AppDate    | Status    |
++-------+----+------------+-----------+------------+-----------+
+| Tariq |  1 |          1 |         1 | 2026-04-01 | Completed |
+| Sana  |  2 |          2 |         2 | 2026-04-02 | Completed |
+| Tariq |  3 |          3 |         1 | 2026-04-03 | Completed |
+| Sana  |  4 |          4 |         2 | 2026-04-05 | Completed |
+| Tariq |  5 |          5 |         1 | 2026-04-07 | Scheduled |
+| Sana  |  6 |          6 |         2 | 2026-04-08 | Cancelled |
+| Tariq |  7 |          7 |         1 | 2026-04-10 | Scheduled |
+| Tariq |  8 |          8 |         1 | 2026-04-11 | Scheduled |
+| Sana  |  9 |          9 |         2 | 2026-04-12 | Scheduled |
+| Tariq | 11 |          1 |         1 | 2026-04-15 | Scheduled |
+| Sana  | 12 |          2 |         2 | 2026-04-16 | Scheduled |
+| Tariq | 13 |          3 |         1 | 2026-04-20 | Scheduled |
++-------+----+------------+-----------+------------+-----------+
+12 rows in set (0.00 sec)
+
+MariaDB [clinic]> SELECT pt.Name, doc.Name, app.* FROM appointments app INNER JOIN patients pt ON pt.ID = app.patient_id INNER JOIN doctors doc ON doc.ID = app.doctor_id;
++---------+------------+----+------------+-----------+------------+-----------+
+| Name    | Name       | ID | patient_id | doctor_id | AppDate    | Status    |
++---------+------------+----+------------+-----------+------------+-----------+
+| Tariq   | Dr. Khalid |  1 |          1 |         1 | 2026-04-01 | Completed |
+| Hamid   | Dr. Khalid |  3 |          3 |         1 | 2026-04-03 | Completed |
+| Junaid  | Dr. Khalid |  5 |          5 |         1 | 2026-04-07 | Scheduled |
+| Usman   | Dr. Khalid |  7 |          7 |         1 | 2026-04-10 | Scheduled |
+| Rabia   | Dr. Khalid |  8 |          8 |         1 | 2026-04-11 | Scheduled |
+| Tariq   | Dr. Khalid | 11 |          1 |         1 | 2026-04-15 | Scheduled |
+| Hamid   | Dr. Khalid | 13 |          3 |         1 | 2026-04-20 | Scheduled |
+| Sana    | Dr. Ayesha |  2 |          2 |         2 | 2026-04-02 | Completed |
+| Nadia   | Dr. Ayesha |  4 |          4 |         2 | 2026-04-05 | Completed |
+| Fareeda | Dr. Ayesha |  6 |          6 |         2 | 2026-04-08 | Cancelled |
+| Sana    | Dr. Ayesha | 12 |          2 |         2 | 2026-04-16 | Scheduled |
++---------+------------+----+------------+-----------+------------+-----------+
+11 rows in set (0.00 sec)
+
+MariaDB [clinic]> SELECT pt.Name, doc.Name, app.AppDate FROM appointments app INNER JOIN patients pt ON pt.ID = app.patient_id INNER JOIN doctors doc ON doc.ID = app.doctor_id;
++---------+------------+------------+
+| Name    | Name       | AppDate    |
++---------+------------+------------+
+| Tariq   | Dr. Khalid | 2026-04-01 |
+| Hamid   | Dr. Khalid | 2026-04-03 |
+| Junaid  | Dr. Khalid | 2026-04-07 |
+| Usman   | Dr. Khalid | 2026-04-10 |
+| Rabia   | Dr. Khalid | 2026-04-11 |
+| Tariq   | Dr. Khalid | 2026-04-15 |
+| Hamid   | Dr. Khalid | 2026-04-20 |
+| Sana    | Dr. Ayesha | 2026-04-02 |
+| Nadia   | Dr. Ayesha | 2026-04-05 |
+| Fareeda | Dr. Ayesha | 2026-04-08 |
+| Sana    | Dr. Ayesha | 2026-04-16 |
++---------+------------+------------+
+11 rows in set (0.00 sec)
+
+MariaDB [clinic]> SELECT pt.Name, doc.Name, app.AppDate FROM appointments app INNER JOIN patients pt ON pt.ID = app.patient_id INNER JOIN doctors doc ON doc.ID = app.doctor_id WHERE Status = "Scheduled";
++--------+------------+------------+
+| Name   | Name       | AppDate    |
++--------+------------+------------+
+| Junaid | Dr. Khalid | 2026-04-07 |
+| Usman  | Dr. Khalid | 2026-04-10 |
+| Rabia  | Dr. Khalid | 2026-04-11 |
+| Tariq  | Dr. Khalid | 2026-04-15 |
+| Hamid  | Dr. Khalid | 2026-04-20 |
+| Sana   | Dr. Ayesha | 2026-04-16 |
++--------+------------+------------+
+6 rows in set (0.00 sec)
